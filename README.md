@@ -1,2 +1,1 @@
-# AndroidDemo
 # AwesomeProject
