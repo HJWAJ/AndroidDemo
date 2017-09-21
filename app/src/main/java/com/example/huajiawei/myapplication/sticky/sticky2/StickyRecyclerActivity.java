@@ -54,6 +54,9 @@ public class StickyRecyclerActivity extends Activity {
 
         @Override
         public int getStickyRange(int position) {
+            if (position == 20) {
+                return 50;
+            }
             return Integer.MAX_VALUE;
         }
     }

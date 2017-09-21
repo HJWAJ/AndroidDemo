@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import com.example.huajiawei.myapplication.R;
 import com.example.huajiawei.myapplication.util.ViewUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by huajiawei on 17/9/8.
  */
@@ -72,6 +75,7 @@ public class StickyRecyclerView extends FrameLayout {
         mRecyclerView.setAdapter(adapter.mRecyclerAdapter);
         mStickyLayoutManager.setAdapter(adapter);
         adapter.setView(this);
+        mAdapter = adapter;
     }
 
     void notifyStickyChanged() {
@@ -80,6 +84,14 @@ public class StickyRecyclerView extends FrameLayout {
 
     void removeAllStickyViews() {
         mStickyContainerView.removeAllViews();
+    }
+
+    List<View> getStickyViews() {
+        List<View> stickyViews = new ArrayList<>();
+        for (int i = 0; i < mStickyContainerView.getChildCount(); i++) {
+            stickyViews.add(mStickyContainerView.getChildAt(i));
+        }
+        return stickyViews;
     }
 
     private class OnScrollListener extends RecyclerView.OnScrollListener {
@@ -125,6 +137,24 @@ public class StickyRecyclerView extends FrameLayout {
                         mStickyContainerView.addView(stickyView);
                         mStickyLayoutManager.setStickyViewAdded(i, true);
                     }
+                    // 处理悬浮范围
+                    if (mStickyLayoutManager.hasAddedStickyView(i)) {
+                        int r = mAdapter.getStickyRange(i);
+                        if (firstVisibleItemPosition > r) {
+                            // 悬浮范围的最后一个view已经滑出，则悬浮的view往上推到完全消失
+                            moveUpStickyView(stickyView, Integer.MAX_VALUE);
+                        } else if (lastVisibleItemPosition < r) {
+                            // 悬浮范围的最后一个view还没到，则悬浮的view保持现状
+                        } else {
+                            // 悬浮范围的最后一个view在列表中，若view的bottom小于悬浮view的bottom
+                            // 则悬浮view的bottom要对齐该view的bottom
+                            int bottomOfLastShouldStickView = linearLayoutManager.findViewByPosition(r).getBottom();
+                            int bottomOfStickyView = mStickyLayoutManager.getStickyViewBottom(stickyView);
+                            if (bottomOfLastShouldStickView < bottomOfStickyView) {
+                                moveUpStickyView(stickyView, bottomOfStickyView - bottomOfLastShouldStickView);
+                            }
+                        }
+                    }
                 }
             }
             return firstVisibleItemPosition;
@@ -149,6 +179,20 @@ public class StickyRecyclerView extends FrameLayout {
                 }
             }
             return lastVisibleItemPosition;
+        }
+    }
+
+    /**
+     * 将悬浮view上移，最大只上移view的高度以免影响它下面的view
+     */
+    private void moveUpStickyView(View stickyView, int distance) {
+        if (stickyView.getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams lp = ((MarginLayoutParams) stickyView.getLayoutParams());
+            int marginToMove = Math.min(ViewUtils.getViewHeight(stickyView) - (-lp.topMargin), distance);
+            if (marginToMove != 0) {
+                lp.topMargin -= marginToMove;
+                stickyView.setLayoutParams(lp);
+            }
         }
     }
 
