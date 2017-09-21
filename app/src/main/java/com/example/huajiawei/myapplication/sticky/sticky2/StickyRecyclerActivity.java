@@ -1,6 +1,7 @@
 package com.example.huajiawei.myapplication.sticky.sticky2;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,13 +30,31 @@ public class StickyRecyclerActivity extends Activity {
         StickyRecyclerView stickyRecyclerView = (StickyRecyclerView)
                 getLayoutInflater().inflate(R.layout.sticky_recycler_view, containerView, false);
         containerView.addView(stickyRecyclerView);
-        stickyRecyclerView.setAdapter(new StickyRecyclerAdapter(new RecyclerAdapter()));
+        stickyRecyclerView.setAdapter(new MyStickyRecyclerAdapter(new RecyclerAdapter()));
     }
 
-    public class StickyRecyclerAdapter extends StickyRecyclerView.Adapter {
+    public class MyStickyRecyclerAdapter extends StickyRecyclerAdapter {
 
-        public StickyRecyclerAdapter(RecyclerView.Adapter recyclerAdapter) {
+        public MyStickyRecyclerAdapter(RecyclerView.Adapter recyclerAdapter) {
             super(recyclerAdapter);
+        }
+
+        @Override
+        public View createStickyView(ViewGroup parent, int position) {
+            if (position == 6 || position == 20 || position == 40) {
+                TextView tv = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_btn, parent, false);
+                tv.setText("我是第" + position + "个item");
+                tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                tv.setTextColor(Color.parseColor("#000000"));
+                tv.setTextSize(14);
+                return tv;
+            }
+            return null;
+        }
+
+        @Override
+        public int getStickyRange(int position) {
+            return Integer.MAX_VALUE;
         }
     }
 
