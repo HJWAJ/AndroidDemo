@@ -84,10 +84,11 @@ public class StickyRecyclerView extends FrameLayout {
 
     private class OnScrollListener extends RecyclerView.OnScrollListener {
         /*
-         * 经debug发现，滑动过程中，并不是每个position对应的item都能成为一次first item
-         * 因此需要记录上次回调的first item是哪个，然后处理上次到这次之间的item的悬浮
+         * 经debug发现，滑动过程中，并不是每个position对应的item都能成为一次first/last item
+         * 因此需要记录上次回调的first/last item是哪个，然后处理上次到这次之间的item的悬浮
          */
         private int recentFirstItemPosition = 0;
+        private int recentLastItemPosition = 0;
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -103,7 +104,7 @@ public class StickyRecyclerView extends FrameLayout {
                 if (dy > 0) {
                     recentFirstItemPosition = onScrollUp(recyclerView);
                 } else if (dy < 0) {
-                    recentFirstItemPosition = onScrollDown(recyclerView);
+                    recentLastItemPosition = onScrollDown(recyclerView);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -138,27 +139,22 @@ public class StickyRecyclerView extends FrameLayout {
             int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
             int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             if (true) Log.d(TAG, "first item: " + firstVisibleItemPosition + " recent first: " + recentFirstItemPosition);
-//            for (int i = firstVisibleItemPosition; i <= recentFirstItemPosition; i++) {
-//                View stickyView = mStickyViews.get(i);
-//                if (stickyView == null) {
-//                    stickyView = mAdapter.createStickyView(StickyRecyclerView.this, i);
-//                    mStickyViews.put(i, stickyView);
-//                }
-//                // 需要处理悬浮
-//                if (stickyView != null) {
-//                    // 如果当前item的top没被遮住了，而且被加过，就把悬浮去掉
-//                    if (mStickyViewAdded.get(i) && linearLayoutManager.findViewByPosition(i).getTop() > mStickyContainerView.getBottom()) {
-//                        mStickyContainerView.removeView(stickyView);
-//                        mStickyViewAdded.put(i, false);
-//                    }
-//                }
-//            }
+            // 上次回调到这次回调之间，需要处理的position段
+            for (int i = firstVisibleItemPosition; i <= recentLastItemPosition; i++) {
+                View stickyView = mStickyLayoutManager.getStickyViewAt(i);
+                // 比较当前位置view的top是否不小于已经悬浮的view总高度，若不小于则去掉悬浮
+                // 当然，如果当前位置view已经往下滑出列表了，那对应的悬浮也该去掉
+                if (stickyView != null && (i > lastVisibleItemPosition
+                        || linearLayoutManager.findViewByPosition(i).getTop() >= getStickyContainterBottom())) {
+                    // 已经去除悬浮的就不处理
+                    if (mStickyLayoutManager.hasAddedStickyView(i)) {
+                        mStickyContainerView.removeView(stickyView);
+                        mStickyLayoutManager.setStickyViewAdded(i, false);
+                    }
+                }
+            }
 
-            return firstVisibleItemPosition;
-        }
-
-        public void reset() {
-            recentFirstItemPosition = 0;
+            return lastVisibleItemPosition;
         }
     }
 
