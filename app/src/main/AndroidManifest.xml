@@ -77,8 +77,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -157,7 +155,7 @@
         </activity>
 
         <activity
-            android:name="com.example.huajiawei.myapplication.sticky.sticky2.StickyRecyclerActivity"
+            android:name="com.example.huajiawei.myapplication.sticky.sticky1.AppbarRecyclerActivity"
             android:label="@string/app_name"
             android:screenOrientation="nosensor"
             android:theme="@style/Theme.AppCompat" >
@@ -169,6 +167,23 @@
 
                 <data
                     android:host="appbar_recycler"
+                    android:scheme="demo" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.example.huajiawei.myapplication.sticky.sticky2.StickyRecyclerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="nosensor"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sticky_recycler"
                     android:scheme="demo" />
             </intent-filter>
         </activity>

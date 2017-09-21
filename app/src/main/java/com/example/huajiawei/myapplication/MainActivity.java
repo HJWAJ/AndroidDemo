@@ -54,6 +54,12 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://appbar_recycler")));
             }
         });
+        findViewById(R.id.btn_sticky_recycler).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://sticky_recycler")));
+            }
+        });
         findViewById(R.id.btn_decor).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

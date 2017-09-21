@@ -48,6 +48,13 @@
             android:textSize="18sp"/>
 
         <Button
+            android:id="@+id/btn_sticky_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="悬浮测试"
+            android:textSize="18sp"/>
+
+        <Button
             android:id="@+id/btn_decor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
