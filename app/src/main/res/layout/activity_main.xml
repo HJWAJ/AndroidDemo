@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    android:fadingEdge="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical">
+
+        <Button
+            android:id="@+id/btn_list_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ListView测试"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_recycler_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RecyclerView测试"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_map_cluster_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="地图点聚合测试"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_text_linespacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView行距测试"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_appbar_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="标题上推隐藏下拉悬停"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_decor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试BadTokenException: activity running"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_ncnn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试NCNN框架"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</ScrollView>
