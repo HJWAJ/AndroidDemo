@@ -98,8 +98,6 @@ public class StickyRecyclerView extends FrameLayout {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (true) Log.d(TAG, "dy: " + dy);
-
             try {
                 if (dy > 0) {
                     recentFirstItemPosition = onScrollUp(recyclerView);
@@ -107,7 +105,7 @@ public class StickyRecyclerView extends FrameLayout {
                     recentLastItemPosition = onScrollDown(recyclerView);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
         }
 
@@ -115,7 +113,6 @@ public class StickyRecyclerView extends FrameLayout {
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
             int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-            if (true) Log.d(TAG, "first item: " + firstVisibleItemPosition + " recent first: " + recentFirstItemPosition);
             // 上次回调到这次回调之间，需要处理的position段
             for (int i = recentFirstItemPosition; i <= lastVisibleItemPosition; i++) {
                 View stickyView = mStickyLayoutManager.getStickyViewAt(i);
@@ -130,7 +127,6 @@ public class StickyRecyclerView extends FrameLayout {
                     }
                 }
             }
-
             return firstVisibleItemPosition;
         }
 
@@ -138,7 +134,6 @@ public class StickyRecyclerView extends FrameLayout {
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
             int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-            if (true) Log.d(TAG, "first item: " + firstVisibleItemPosition + " recent first: " + recentFirstItemPosition);
             // 上次回调到这次回调之间，需要处理的position段
             for (int i = firstVisibleItemPosition; i <= recentLastItemPosition; i++) {
                 View stickyView = mStickyLayoutManager.getStickyViewAt(i);
@@ -153,7 +148,6 @@ public class StickyRecyclerView extends FrameLayout {
                     }
                 }
             }
-
             return lastVisibleItemPosition;
         }
     }
