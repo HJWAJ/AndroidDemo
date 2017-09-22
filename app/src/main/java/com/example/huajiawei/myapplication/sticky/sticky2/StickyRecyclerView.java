@@ -174,7 +174,8 @@ public class StickyRecyclerView extends FrameLayout {
                 // 比较当前位置view的top是否不小于已经悬浮的view总高度，若不小于则去掉悬浮
                 // 当然，如果当前位置view已经往下滑出列表了，那对应的悬浮也该去掉
                 if (stickyView != null && (i > lastVisibleItemPosition
-                        || linearLayoutManager.findViewByPosition(i).getTop() >= getStickyContainterBottom())) {
+                        || linearLayoutManager.findViewByPosition(i).getTop() >= getStickyContainterBottom()
+                        - ViewUtils.getViewHeight(mStickyContainerView.getChildAt(mStickyContainerView.getChildCount() - 1)))) {
                     // 已经去除悬浮的就不处理
                     if (mStickyLayoutManager.hasAddedStickyView(i)) {
                         mStickyContainerView.removeView(stickyView);
