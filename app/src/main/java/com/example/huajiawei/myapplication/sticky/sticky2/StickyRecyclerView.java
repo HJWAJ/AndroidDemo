@@ -146,7 +146,7 @@ public class StickyRecyclerView extends FrameLayout {
                     // 遍历以当前位置为止的悬浮view
                     for (Integer start : mStickyLayoutManager.getRange(i)) {
                         View potentialMoveOutStickyView = mStickyLayoutManager.getStickyViewAt(start);
-                        if (firstVisibleItemPosition > i) {
+                        if (i < firstVisibleItemPosition) {
                             // 悬浮范围的最后一个view已经滑出，则悬浮的view往上推到完全消失
                             moveUpStickyView(potentialMoveOutStickyView, Integer.MAX_VALUE);
                         } else {
@@ -181,6 +181,25 @@ public class StickyRecyclerView extends FrameLayout {
                         mStickyLayoutManager.setStickyViewAdded(i, false);
                     }
                 }
+                // 处理悬浮范围，如果i是某个悬浮view的最后区间则需要处理
+                if (mStickyLayoutManager.getRange(i) != null && mStickyLayoutManager.getRange(i).size() > 0) {
+                    // 遍历以当前位置为止的悬浮view
+                    for (Integer start : mStickyLayoutManager.getRange(i)) {
+                        View potentialMoveInStickyView = mStickyLayoutManager.getStickyViewAt(start);
+                        // 悬浮范围的最后一个view已经滑出，则悬浮的view完全展示出来
+                        if (i > lastVisibleItemPosition) {
+                            moveDownStickyView(potentialMoveInStickyView, Integer.MAX_VALUE);
+                        } else {
+                            // 悬浮范围的最后一个view在列表中，若view的bottom小于悬浮view的bottom
+                            // 则悬浮view的bottom要对齐该view的bottom
+                            int bottomOfLastShouldStickView = linearLayoutManager.findViewByPosition(i).getBottom();
+                            int bottomOfStickyView = mStickyLayoutManager.getStickyViewBottom(potentialMoveInStickyView);
+                            if (bottomOfLastShouldStickView > bottomOfStickyView) {
+                                moveDownStickyView(potentialMoveInStickyView, bottomOfLastShouldStickView - bottomOfStickyView);
+                            }
+                        }
+                    }
+                }
             }
             return lastVisibleItemPosition;
         }
@@ -195,6 +214,20 @@ public class StickyRecyclerView extends FrameLayout {
             int marginToMove = Math.min(ViewUtils.getViewHeight(stickyView) - (-lp.topMargin), distance);
             if (marginToMove != 0) {
                 lp.topMargin -= marginToMove;
+                stickyView.setLayoutParams(lp);
+            }
+        }
+    }
+
+    /**
+     * 将悬浮view下移，最大下移到view完全露出
+     */
+    private void moveDownStickyView(View stickyView, int distance) {
+        if (stickyView.getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams lp = ((MarginLayoutParams) stickyView.getLayoutParams());
+            int marginToMove = Math.min(-lp.topMargin, distance);
+            if (marginToMove != 0) {
+                lp.topMargin += marginToMove;
                 stickyView.setLayoutParams(lp);
             }
         }
