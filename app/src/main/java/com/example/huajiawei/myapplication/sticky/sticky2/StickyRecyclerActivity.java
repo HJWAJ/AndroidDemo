@@ -41,7 +41,7 @@ public class StickyRecyclerActivity extends Activity {
 
         @Override
         public View createStickyView(ViewGroup parent, int position) {
-            if (position == 6 || position == 20 || position == 40) {
+            if (position == 6 || position == 20 || position == 40 || position == 45 || position == 60) {
                 TextView tv = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_btn, parent, false);
                 tv.setText("我是第" + position + "个item");
                 tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -54,7 +54,7 @@ public class StickyRecyclerActivity extends Activity {
 
         @Override
         public int getStickyRange(int position) {
-            if (position == 20) {
+            if (position == 20 || position == 40) {
                 return 50;
             }
             return Integer.MAX_VALUE;
