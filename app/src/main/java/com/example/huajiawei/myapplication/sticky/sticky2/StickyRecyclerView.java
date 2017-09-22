@@ -132,26 +132,30 @@ public class StickyRecyclerView extends FrameLayout {
                 // 当然，如果当前位置view已经往上滑出列表了，那对应的悬浮也该出
                 if (stickyView != null && (i < firstVisibleItemPosition
                         || linearLayoutManager.findViewByPosition(i).getTop() < getStickyContainterBottom())) {
-                    // 已经出悬浮的就不处理
+                    // 已经出悬浮的就不再增加
                     if (!mStickyLayoutManager.hasAddedStickyView(i)) {
                         mStickyContainerView.addView(stickyView);
+                        if (mAdapter.getStickyRange(i) != Integer.MAX_VALUE) {
+                            mStickyLayoutManager.addRange(mAdapter.getStickyRange(i), i);
+                        }
                         mStickyLayoutManager.setStickyViewAdded(i, true);
                     }
-                    // 处理悬浮范围
-                    if (mStickyLayoutManager.hasAddedStickyView(i)) {
-                        int r = mAdapter.getStickyRange(i);
-                        if (firstVisibleItemPosition > r) {
+                }
+                // 处理悬浮范围，如果i是某个悬浮view的最后区间则需要处理
+                if (mStickyLayoutManager.getRange(i) != null && mStickyLayoutManager.getRange(i).size() > 0) {
+                    // 遍历以当前位置为止的悬浮view
+                    for (Integer start : mStickyLayoutManager.getRange(i)) {
+                        View potentialMoveOutStickyView = mStickyLayoutManager.getStickyViewAt(start);
+                        if (firstVisibleItemPosition > i) {
                             // 悬浮范围的最后一个view已经滑出，则悬浮的view往上推到完全消失
-                            moveUpStickyView(stickyView, Integer.MAX_VALUE);
-                        } else if (lastVisibleItemPosition < r) {
-                            // 悬浮范围的最后一个view还没到，则悬浮的view保持现状
+                            moveUpStickyView(potentialMoveOutStickyView, Integer.MAX_VALUE);
                         } else {
                             // 悬浮范围的最后一个view在列表中，若view的bottom小于悬浮view的bottom
                             // 则悬浮view的bottom要对齐该view的bottom
-                            int bottomOfLastShouldStickView = linearLayoutManager.findViewByPosition(r).getBottom();
-                            int bottomOfStickyView = mStickyLayoutManager.getStickyViewBottom(stickyView);
+                            int bottomOfLastShouldStickView = linearLayoutManager.findViewByPosition(i).getBottom();
+                            int bottomOfStickyView = mStickyLayoutManager.getStickyViewBottom(potentialMoveOutStickyView);
                             if (bottomOfLastShouldStickView < bottomOfStickyView) {
-                                moveUpStickyView(stickyView, bottomOfStickyView - bottomOfLastShouldStickView);
+                                moveUpStickyView(potentialMoveOutStickyView, bottomOfStickyView - bottomOfLastShouldStickView);
                             }
                         }
                     }

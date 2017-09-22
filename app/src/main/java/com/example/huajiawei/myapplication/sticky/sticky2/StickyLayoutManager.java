@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.huajiawei.myapplication.util.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ class StickyLayoutManager {
     private SparseBooleanArray mStickyViewAdded = new SparseBooleanArray();
     // 缓存每个悬浮view的对应的位置
     private Map<View, Integer> mStickyViewPosition = new HashMap<>();
+    // 注册每个位置是哪些悬浮view的终点
+    private SparseArray<ArrayList<Integer>> mStickyRanges = new SparseArray<>();
 
     StickyLayoutManager(StickyRecyclerView stickyRecyclerView) {
         mStickyRecyclerView = stickyRecyclerView;
@@ -85,5 +88,21 @@ class StickyLayoutManager {
             }
         }
         return bottom;
+    }
+
+    /**
+     * 注册position是哪个悬浮位置的终点
+     * @param position 右端点
+     * @param from 左端点
+     */
+    void addRange(int position, int from) {
+        if (mStickyRanges.get(position) == null) {
+            mStickyRanges.put(position, new ArrayList<Integer>());
+        }
+        mStickyRanges.get(position).add(from);
+    }
+
+    ArrayList<Integer> getRange(int position) {
+        return mStickyRanges.get(position);
     }
 }
