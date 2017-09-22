@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <LinearLayout
+    <com.example.huajiawei.myapplication.sticky.sticky2.ReverseZIndexLinearLayout
         android:id="@+id/sticky_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
