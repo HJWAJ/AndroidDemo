@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * StickyRecyclerView悬浮操作的辅助类，不公开给外部使用。目前用于缓存一些计算过的值
+ *
  * Created by huajiawei on 17/9/21.
  */
 

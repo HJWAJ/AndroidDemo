@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 能够设置悬浮的recycler view。
  * Created by huajiawei on 17/9/8.
  */
 

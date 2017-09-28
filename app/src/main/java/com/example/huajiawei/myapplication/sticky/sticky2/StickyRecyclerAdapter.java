@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * 管理悬浮的adapter。为了能够接入各种定制的RecyclerView.Adapter，选择以组合而非继承的方式来实现这个adapter。
+ *
  * Created by huajiawei on 17/9/21.
  */
 
