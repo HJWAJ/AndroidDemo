@@ -223,7 +223,7 @@
         </activity>
 
         <activity
-            android:name="com.example.huajiawei.myapplication.ncnn.TestNCNNActivity"
+            android:name="com.example.huajiawei.myapplication.imageview.ImageMatrixActivity"
             android:label="@string/app_name"
             android:screenOrientation="nosensor"
             android:theme="@style/Theme.AppCompat" >
@@ -234,7 +234,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ncnn"
+                    android:host="image_matrix"
                     android:scheme="demo" />
             </intent-filter>
         </activity>

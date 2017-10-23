@@ -62,10 +62,10 @@
             android:textSize="18sp"/>
 
         <Button
-            android:id="@+id/btn_ncnn"
+            android:id="@+id/btn_image_matrix"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="测试NCNN框架"
+            android:text="测试ImageView Matrix"
             android:textSize="18sp"/>
     </LinearLayout>
 </ScrollView>

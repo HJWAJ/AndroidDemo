@@ -66,10 +66,10 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://decor1")));
             }
         });
-        findViewById(R.id.btn_ncnn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_image_matrix).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://ncnn")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://image_matrix")));
             }
         });
     }
