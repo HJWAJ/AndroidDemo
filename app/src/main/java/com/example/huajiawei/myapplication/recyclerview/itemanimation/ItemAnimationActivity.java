@@ -61,18 +61,22 @@ public class ItemAnimationActivity extends Activity {
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            if (position == FORMER_SIZE) {
+            if ((fold && position == FORMER_SIZE)
+                    || (!fold && position == FORMER_SIZE + FOLD_SIZE)) {
                 ((TextView) holder.itemView).setText(fold ? "展开" : "折叠");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         fold = !fold;
-                        ((LinearLayoutManagerWithSmoothOffset) recyclerView.getLayoutManager()).smoothScrollToPosition(holder.getAdapterPosition(), 0);
-                        notifyItemChanged(FORMER_SIZE);
                         if (fold) {
-                            notifyItemRangeRemoved(FORMER_SIZE + 1, FOLD_SIZE);
+                            notifyItemRangeRemoved(FORMER_SIZE, FOLD_SIZE);
                         } else {
-                            notifyItemRangeInserted(FORMER_SIZE + 1, FOLD_SIZE);
+                            notifyItemRangeInserted(FORMER_SIZE, FOLD_SIZE);
+                        }
+                        notifyItemChanged(fold ? FORMER_SIZE : FORMER_SIZE + FOLD_SIZE);
+                        if (!fold) {
+                            ((LinearLayoutManagerWithSmoothOffset) recyclerView.getLayoutManager()).smoothScrollToPosition(
+                                    holder.getAdapterPosition() - FOLD_SIZE, 0);
                         }
                     }
                 });
@@ -84,14 +88,14 @@ public class ItemAnimationActivity extends Activity {
                 ((TextView) holder.itemView).setText("latter");
                 holder.itemView.setOnClickListener(null);
             } else {
-                ((TextView) holder.itemView).setText("" + position);
+                ((TextView) holder.itemView).setText("" + (position - FORMER_SIZE + 1));
                 holder.itemView.setOnClickListener(null);
             }
         }
 
         @Override
         public int getItemCount() {
-            return fold ? FORMER_SIZE + 1 + LATTER_SIZE : FORMER_SIZE + 1 + FOLD_SIZE + LATTER_SIZE;
+            return fold ? FORMER_SIZE + 1 + LATTER_SIZE : FORMER_SIZE + FOLD_SIZE + 1 + LATTER_SIZE;
         }
 
         private class ViewHolder extends RecyclerView.ViewHolder {
