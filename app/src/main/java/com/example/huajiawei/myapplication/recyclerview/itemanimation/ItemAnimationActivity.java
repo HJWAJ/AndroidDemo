@@ -60,14 +60,14 @@ public class ItemAnimationActivity extends Activity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             if (position == FORMER_SIZE) {
                 ((TextView) holder.itemView).setText(fold ? "展开" : "折叠");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         fold = !fold;
-                        ((LinearLayoutManagerWithSmoothOffset) recyclerView.getLayoutManager()).smoothScrollToPosition(position, 0);
+                        ((LinearLayoutManagerWithSmoothOffset) recyclerView.getLayoutManager()).smoothScrollToPosition(holder.getAdapterPosition(), 0);
                         notifyItemChanged(FORMER_SIZE);
                         if (fold) {
                             notifyItemRangeRemoved(FORMER_SIZE + 1, FOLD_SIZE);
