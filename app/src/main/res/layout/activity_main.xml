@@ -67,5 +67,12 @@
             android:layout_height="wrap_content"
             android:text="测试ImageView Matrix"
             android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_item_animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试RecyclerView item动画"
+            android:textSize="18sp"/>
     </LinearLayout>
 </ScrollView>

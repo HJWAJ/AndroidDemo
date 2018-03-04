@@ -1,6 +1,7 @@
 package com.example.huajiawei.myapplication.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -43,5 +44,10 @@ public class ViewUtils {
             screenWidthPixels = dm.widthPixels;
         }
         return screenWidthPixels;
+    }
+
+    public static float dip2px(float dipValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        return  (dipValue * scale + 0.5f);
     }
 }
