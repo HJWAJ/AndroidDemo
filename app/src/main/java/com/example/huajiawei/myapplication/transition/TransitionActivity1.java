@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +56,13 @@ public class TransitionActivity1 extends Activity {
                 @Override
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://transition2?id=" + holder.getAdapterPosition())),
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                ((holder.getAdapterPosition() & 1) == 1) ? "demo://transition2" : "demo://transition3")),
                                 ActivityOptions.makeSceneTransitionAnimation(
                                         TransitionActivity1.this,
-                                        view.findViewById(R.id.image),
-                                        "image").toBundle());
+                                        Pair.create(view.findViewById(R.id.image),"image"),
+                                        Pair.create(view.findViewById(R.id.text),"text")
+                                        ).toBundle());
                     } else {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://transition2")));
                     }

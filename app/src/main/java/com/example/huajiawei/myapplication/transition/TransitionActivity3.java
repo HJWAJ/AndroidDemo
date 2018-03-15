@@ -10,15 +10,15 @@ import com.example.huajiawei.myapplication.R;
  * Created by huajiawei on 2018/3/15.
  */
 
-public class TransitionActivity2 extends Activity {
+public class TransitionActivity3 extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transition2);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            findViewById(R.id.text).setTransitionName("image");
-            findViewById(R.id.image).setTransitionName("text");
+            findViewById(R.id.text).setTransitionName("text");
+            findViewById(R.id.image).setTransitionName("image");
         }
     }
 }
