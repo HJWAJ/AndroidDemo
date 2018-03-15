@@ -90,5 +90,12 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://recycler_item_animation")));
             }
         });
+        // 测试转场
+        findViewById(R.id.btn_start_activity_anim).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://transition1")));
+            }
+        });
     }
 }

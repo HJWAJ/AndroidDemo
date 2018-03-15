@@ -24,13 +24,13 @@ public class ItemAnimationActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_animation);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
     }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothOffset(this));
-        recyclerView.setAdapter(new FoldAdapter());
+        recyclerView.setAdapter(new TestExceptionAdapter());
     }
 
     private class FoldAdapter extends RecyclerView.Adapter {
@@ -46,17 +46,6 @@ public class ItemAnimationActivity extends Activity {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(createTextView());
-        }
-
-        private View createTextView() {
-            TextView textView = new TextView(ItemAnimationActivity.this);
-            textView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            textView.setTextColor(Color.parseColor("#000000"));
-            textView.setTextSize(30);
-            int padding = (int) ViewUtils.dip2px(20);
-            textView.setPadding(padding, padding, padding, padding);
-            return textView;
         }
 
         @Override
@@ -97,11 +86,51 @@ public class ItemAnimationActivity extends Activity {
         public int getItemCount() {
             return fold ? FORMER_SIZE + 1 + LATTER_SIZE : FORMER_SIZE + FOLD_SIZE + 1 + LATTER_SIZE;
         }
+    }
 
-        private class ViewHolder extends RecyclerView.ViewHolder {
-            public ViewHolder(View itemView) {
-                super(itemView);
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    private View createTextView() {
+        TextView textView = new TextView(ItemAnimationActivity.this);
+        textView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        textView.setTextColor(Color.parseColor("#000000"));
+        textView.setTextSize(30);
+        int padding = (int) ViewUtils.dip2px(20);
+        textView.setPadding(padding, padding, padding, padding);
+        return textView;
+    }
+
+    private class TestExceptionAdapter extends RecyclerView.Adapter {
+
+        int count = 20;
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(createTextView());
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ((TextView) holder.itemView).setText("" + position);
+            if (position == 0) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        count = 10;
+                        notifyItemRangeRemoved(10, 5);
+                    }
+                });
             }
+        }
+
+        @Override
+        public int getItemCount() {
+            return count;
         }
     }
 }
