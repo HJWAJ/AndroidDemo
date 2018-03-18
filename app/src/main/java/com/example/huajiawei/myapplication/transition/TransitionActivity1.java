@@ -56,13 +56,23 @@ public class TransitionActivity1 extends Activity {
                 @Override
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                ((holder.getAdapterPosition() & 1) == 1) ? "demo://transition2" : "demo://transition3")),
-                                ActivityOptions.makeSceneTransitionAnimation(
-                                        TransitionActivity1.this,
-                                        Pair.create(view.findViewById(R.id.image),"image"),
-                                        Pair.create(view.findViewById(R.id.text),"text")
-                                        ).toBundle());
+                        if ((holder.getAdapterPosition() & 2) == 2) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    ((holder.getAdapterPosition() & 1) == 1) ? "demo://transition2" : "demo://transition3")),
+                                    ActivityOptions.makeSceneTransitionAnimation(
+                                            TransitionActivity1.this,
+                                            Pair.create(view.findViewById(R.id.image), "image"),
+                                            Pair.create(view.findViewById(R.id.text), "text")
+                                    ).toBundle());
+                        } else {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    "demo://transition4")),
+                                    ActivityOptions.makeSceneTransitionAnimation(
+                                            TransitionActivity1.this,
+                                            Pair.create(view.findViewById(R.id.image), "image"),
+                                            Pair.create(view.findViewById(R.id.text), "text")
+                                    ).toBundle());
+                        }
                     } else {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://transition2")));
                     }
