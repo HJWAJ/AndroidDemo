@@ -3,6 +3,7 @@ package com.example.huajiawei.myapplication.recyclerview.itemanimation;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,7 +31,7 @@ public class ItemAnimationActivity extends Activity {
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothOffset(this));
-        recyclerView.setAdapter(new TestExceptionAdapter());
+        recyclerView.setAdapter(new RemoveAndAddAdapter());
     }
 
     private class FoldAdapter extends RecyclerView.Adapter {
@@ -123,6 +124,73 @@ public class ItemAnimationActivity extends Activity {
                     public void onClick(View v) {
                         count = 10;
                         notifyItemRangeRemoved(10, 5);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return count;
+        }
+    }
+
+    private class RemoveAndAddAdapter extends RecyclerView.Adapter {
+
+        int count = 20;
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(createTextView());
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ((TextView) holder.itemView).setText("" + position);
+            if (position == 0) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        count = 1;
+                        notifyItemRangeRemoved(1, 19);
+                        count = 20;
+                        notifyItemRangeInserted(1, 19);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return count;
+        }
+    }
+
+    private class UpdateAdapter extends RecyclerView.Adapter {
+
+        int count = 20;
+        boolean change;
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(createTextView());
+        }
+
+        int p(int position) {
+            return position + (!change ? 0 : 100);
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            ((TextView) holder.itemView).setText("" + p(position));
+            if (position == 0) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        change = true;
+                        notifyItemRangeChanged(0, 5);
+                        count = 5;
+                        notifyItemRangeRemoved(5, 15);
                     }
                 });
             }

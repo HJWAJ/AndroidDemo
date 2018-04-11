@@ -318,6 +318,23 @@
                     android:scheme="demo" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.huajiawei.myapplication.transition.TransitionActivity5"
+            android:label="@string/app_name"
+            android:screenOrientation="nosensor"
+            android:theme="@style/Theme.AppCompat" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="transition5"
+                    android:scheme="demo" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,11 +1,14 @@
 package com.example.huajiawei.myapplication.transition;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -16,6 +19,8 @@ import android.widget.TextView;
 import com.example.huajiawei.myapplication.R;
 import com.example.huajiawei.myapplication.recyclerview.common.LinearLayoutManagerWithSmoothOffset;
 
+import java.util.List;
+
 /**
  * Created by huajiawei on 2018/3/7.
  */
@@ -24,12 +29,42 @@ public class TransitionActivity1 extends Activity {
 
     RecyclerView recyclerView;
 
+    @SuppressLint("NewApi")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transition1);
         recyclerView = findViewById(R.id.recycler_view);
         initRecyclerView();
+        findViewById(R.id.item0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                recyclerView.stopScroll();
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                        "demo://transition5")),
+                        ActivityOptions.makeSceneTransitionAnimation(
+                                TransitionActivity1.this,
+                                Pair.create(v.findViewById(R.id.image), "image"),
+                                Pair.create(v.findViewById(R.id.text), "text")
+                        ).toBundle());
+            }
+        });
+        ActivityCompat.setExitSharedElementCallback(this, new SharedElementCallback() {
+
+            @Override
+            public void onSharedElementEnd(List<String> sharedElementNames,
+                                           List<View> sharedElements,
+                                           List<View> sharedElementSnapshots) {
+
+                super.onSharedElementEnd(sharedElementNames, sharedElements,
+                        sharedElementSnapshots);
+
+                for (View view : sharedElements) {
+                    view.setVisibility(View.VISIBLE);
+                    view.setAlpha(1);
+                }
+            }
+        });
     }
 
 
@@ -56,7 +91,22 @@ public class TransitionActivity1 extends Activity {
                 @Override
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        if ((holder.getAdapterPosition() & 2) == 2) {
+                        if (holder.getAdapterPosition() == 0) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    "demo://transition5")),
+                                    ActivityOptions.makeSceneTransitionAnimation(
+                                            TransitionActivity1.this,
+                                            Pair.create(view.findViewById(R.id.image), "image"),
+                                            Pair.create(view.findViewById(R.id.text), "text")
+                                    ).toBundle());
+                        } else if ((holder.getAdapterPosition() & 2) == 2) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    ((holder.getAdapterPosition() & 1) == 1) ? "demo://transition2" : "demo://transition3")),
+                                    ActivityOptions.makeSceneTransitionAnimation(
+                                            TransitionActivity1.this,
+                                            Pair.create(view.findViewById(R.id.image), "image"),
+                                            Pair.create(view.findViewById(R.id.text), "text")
+                                    ).toBundle());
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                                     ((holder.getAdapterPosition() & 1) == 1) ? "demo://transition2" : "demo://transition3")),
                                     ActivityOptions.makeSceneTransitionAnimation(
@@ -65,6 +115,13 @@ public class TransitionActivity1 extends Activity {
                                             Pair.create(view.findViewById(R.id.text), "text")
                                     ).toBundle());
                         } else {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    "demo://transition4")),
+                                    ActivityOptions.makeSceneTransitionAnimation(
+                                            TransitionActivity1.this,
+                                            Pair.create(view.findViewById(R.id.image), "image"),
+                                            Pair.create(view.findViewById(R.id.text), "text")
+                                    ).toBundle());
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                                     "demo://transition4")),
                                     ActivityOptions.makeSceneTransitionAnimation(
@@ -82,7 +139,7 @@ public class TransitionActivity1 extends Activity {
 
         @Override
         public int getItemCount() {
-            return 30;
+            return 1000;
         }
     }
 
