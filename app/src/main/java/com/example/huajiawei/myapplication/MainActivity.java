@@ -97,5 +97,12 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://transition1")));
             }
         });
+        // 测试inflate new add remove性能
+        findViewById(R.id.btn_test_inflate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://inflate")));
+            }
+        });
     }
 }

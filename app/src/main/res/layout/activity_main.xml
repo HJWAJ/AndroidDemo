@@ -81,5 +81,12 @@
             android:layout_height="wrap_content"
             android:text="测试转场动画"
             android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_test_inflate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试inflate性能"
+            android:textSize="18sp"/>
     </LinearLayout>
 </ScrollView>
