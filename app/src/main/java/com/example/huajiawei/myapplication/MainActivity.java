@@ -104,5 +104,12 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://inflate")));
             }
         });
+        // 测试rx
+        findViewById(R.id.btn_test_rx).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("demo://rx")));
+            }
+        });
     }
 }

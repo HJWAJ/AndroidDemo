@@ -25,6 +25,9 @@ android {
         jniLibs.srcDirs = ["src/main/jniLibs"]
         jni.srcDirs=[]
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -33,4 +36,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.2'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.3.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
 }

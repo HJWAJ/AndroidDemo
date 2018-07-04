@@ -1,4 +1,4 @@
-package com.example.huajiawei.myapplication.flexibility;
+package com.example.huajiawei.myapplication.performance;
 
 import android.app.Activity;
 import android.os.Bundle;
