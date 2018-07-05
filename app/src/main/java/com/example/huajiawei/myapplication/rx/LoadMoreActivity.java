@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,13 +59,14 @@ public class LoadMoreActivity extends Activity {
                         return recyclerViewScrollEvent.view().getAdapter().getItemCount();
                     }
                 })
-                .distinctUntilChanged()
+                .distinctUntilChanged() // item count变化才走下面
                 .flatMap(new Func1<Integer, Observable<?>>() {
                     @Override
                     public Observable<?> call(Integer integer) {
                         return Observable.create(new Observable.OnSubscribe<Integer>() {
                             @Override
                             public void call(final Subscriber<? super Integer> subscriber) {
+                                Log.d("rx", "load data"); // distinctUntilChanged的效果
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
